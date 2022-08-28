@@ -1,7 +1,7 @@
 #include "io.h"
+#include "string.h"
 
 #include <unistd.h>
-#include <string.h>
 #include <stdlib.h>
 
 /**
@@ -13,13 +13,13 @@
  */
 int print(int fd, char *s)
 {
-	unsigned int len, printed;
+	int len, printed;
 
 	if (s == NULL)
 	{
 		return (-1);
 	}
-	len = strlen(s);
+	len = _strlen(s);
 	printed = write(fd, s, len);
 	if (printed == -1)
 	{

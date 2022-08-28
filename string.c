@@ -16,3 +16,34 @@ int _strlen(char *s)
 	}
 	return (i);
 }
+
+
+
+
+
+#include "string.h"
+
+/**
+ * _strcmp - compares two strings
+ * @s1: first string to be compared
+ * @s2: second string to be compared
+ *
+ * Return: 0, if both strings are equal
+ * negative number, if s1 is less than s2
+ * positive number, if s2 is less than s1
+ */
+int _strcmp(char *s1, char *s2)
+{
+	int i = 0, diff = 0;
+
+	while (s1[i] != '\0' || s2[i] != '\0')
+	{
+		if (s1[i] == s2[i])
+			i++;
+		else
+			diff = s1[i] - s2[i];
+		break;
+	}
+
+	return (diff);
+}

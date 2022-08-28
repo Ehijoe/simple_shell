@@ -37,7 +37,7 @@ Helper string functions
 
 ### _strcmp
 
-### append
+### concatenate
 
 ### _strlen
 

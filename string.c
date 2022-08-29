@@ -56,20 +56,30 @@ int _strcmp(char *s1, char *s2)
 
 /**
  * _strcat - concatenates two strings
- * @dest: pointer to the destination string
- * @src: pointer to the source string
+ * @string1: pointer to the destination string
+ * @string2: pointer to the source string
  *
  * Return = destination
  */
-char *_strcat(char *dest, char *src)
+char *_strcat(char *string1, char *string2)
 {
-	int count1 = 0, count2 = 0;
+	int i;
+	unsigned int length1, length2, length3;
+	char *full_string;
 
-	while (dest[count1] != '\0')
-		count1++;
+	length1 = _strlen(string1);
+	length2 = _strlen(string2);
+	length3 = length1 + length2;
 
-	while (src[count2] != '\0')
-		dest[count1++] = src[count2++];
+	full_string = malloc(length3 + 1);
+	if (full_string == NULL)
+		return (NULL);
 
-	return (dest);
+	for (i = 0; i < length1; i++)
+		full_string[i] = string1[i];
+
+	for (i = 0; i < length2; i++)
+		full_string[i + length1] = string2[i];
+
+	return (full_string);
 }

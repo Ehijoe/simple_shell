@@ -21,7 +21,6 @@ int _strlen(char *s)
 
 
 
-#include "string.h"
 
 /**
  * _strcmp - compares two strings
@@ -52,7 +51,6 @@ int _strcmp(char *s1, char *s2)
 
 
 
-#include "string.h"
 
 /**
  * _strcat - concatenates two strings

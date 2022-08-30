@@ -69,7 +69,7 @@ char *_strcat(char *string1, char *string2)
 
 	length1 = _strlen(string1);
 	length2 = _strlen(string2);
-	length3 = length1 + length2;
+	length3 = length1 + length2+1;
 
 	full_string = malloc(length3 + 1);
 	if (full_string == NULL)
@@ -79,7 +79,9 @@ char *_strcat(char *string1, char *string2)
 		full_string[i] = string1[i];
 
 	for (i = 0; i < length2; i++)
-		full_string[i + length1] = string2[i];
+		full_string[length1 + i] = string2[i];
+
+	full_string[length3 -1] = '\0';
 
 	return (full_string);
 }

@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "arguments.h"
 
@@ -12,18 +13,35 @@
 char **parse(char *line)
 {
 	char **argv;
-	int i, j, k;
+	int i, j, k, l;
+	int args;
 
-	argv = malloc(sizeof(char *) * 2);
-	argv[1] = NULL;
-	for (i = 0; is_whitespace(line[i]) == 1; i++)
-		continue;
-	for (j = 0; is_whitespace(line[i + j]) == 0; j++)
-		continue;
-	argv[0] = malloc(j);
-	for (k = 0; k < j; k++)
+	args = count_args(line);
+	argv = malloc(sizeof(char *) * (args + 1));
+	if (argv == NULL)
 	{
-		argv[0][k] = line[i + k];
+		perror("malloc");
+		exit(1);
+	}
+	argv[args] = NULL;
+
+	for (l = 0; l < args; l++)
+	{
+		for (i = 0; is_whitespace(line[i]) == 1; i++)
+			continue;
+		for (j = 0; is_whitespace(line[i + j]) == 0; j++)
+			continue;
+		argv[l] = malloc(j);
+		if (argv[l] == NULL)
+		{
+			perror("malloc");
+			exit(1);
+		}
+		for (k = 0; k < j; k++)
+		{
+			argv[l][k] = line[i + k];
+		}
+		line += i + j;
 	}
 
 	return (argv);
@@ -49,6 +67,34 @@ int is_whitespace(char c)
 	if (c == '\0')
 		return (1);
 	return (0);
+}
+
+
+/**
+ * count_args - Counts the number of arguments in a line
+ * @line: A pointer to the line
+ *
+ * Return: The number of separate tokens in the line
+ */
+int count_args(char *line)
+{
+	int args = 0, i;
+	int in_arg;
+
+	in_arg = 0;
+	for (i = 0; line[i] != '\0'; i++)
+	{
+		if (is_whitespace(line[i]))
+		{
+			in_arg = 0;
+		}
+		else if (!in_arg)
+		{
+			in_arg = 1;
+			args++;
+		}
+	}
+	return (args);
 }
 
 

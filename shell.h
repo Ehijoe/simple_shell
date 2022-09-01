@@ -2,6 +2,6 @@
 #define SHELL_H
 
 void display_prompt(void);
-int run_command(char **arg_list, char **environment);
+int run_command(char **arg_list, char **environment, char *shell_name);
 
 #endif

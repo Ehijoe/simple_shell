@@ -9,6 +9,7 @@
  * check_builtins - Checks if a command line is a builtin
  * @arglist: The list of arguments passed to the shell
  * @shell_name: The name of the shell
+ * @env: Pointer to the environment
  *
  * Return: 1 if the command was a builtin and 0 otherwise
  */

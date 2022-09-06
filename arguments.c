@@ -31,7 +31,7 @@ char **parse(char *line)
 			continue;
 		for (j = 0; is_whitespace(line[i + j]) == 0; j++)
 			continue;
-		argv[l] = malloc(j);
+		argv[l] = malloc(j + 1);
 		if (argv[l] == NULL)
 		{
 			perror("malloc");

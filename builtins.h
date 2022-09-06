@@ -18,5 +18,7 @@ int check_builtins(char **arglist, char *shell_name, char ***env);
 
 int builtin_exit(char **arglist, char *shell_name, char ***env);
 int builtin_env(char **arglist, char *shell_name, char ***env);
+int builtin_setenv(char **arglist, char *shell_name, char ***env);
+int builtin_unsetenv(char **arglist, char *shell_name, char ***env);
 
 #endif

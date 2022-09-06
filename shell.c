@@ -10,24 +10,27 @@
 #include "io.h"
 #include "arguments.h"
 #include "builtins.h"
+#include "environment.h"
 
 
 /**
  * main - Entry point
  * @argc: Number of arguments
  * @argv: List of arguments
- * @env: The environment
+ * @environ: The environment
  *
  * Return: 0 on success, 1 on error
  */
-int main(int argc, char **argv, char **env)
+int main(int argc, char **argv, char **environ)
 {
 	char *buffer = NULL;
 	unsigned int buf_size = 0;
 	int nread;
 	char **arg_list;
 	char *shell_name;
+	char **env;
 
+	env = copy_env(environ);
 	shell_name = argv[0];
 	if (env == NULL)
 		exit(1);
@@ -57,6 +60,7 @@ int main(int argc, char **argv, char **env)
 	}
 	print(STDOUT_FILENO, "\n");
 	free(buffer);
+	free_env(env);
 	return (0);
 }
 

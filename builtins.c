@@ -19,6 +19,8 @@ int check_builtins(char **arglist, char *shell_name, char ***env)
 	builtin_s builtins[] = {
 		{"exit", builtin_exit},
 		{"env", builtin_env},
+		{"setenv", builtin_setenv},
+		{"unsetenv", builtin_unsetenv},
 		{NULL, NULL}
 	};
 

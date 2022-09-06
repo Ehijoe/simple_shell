@@ -11,6 +11,7 @@
 #include "arguments.h"
 #include "builtins.h"
 #include "environment.h"
+#include "path.h"
 
 
 /**
@@ -26,20 +27,20 @@ int main(int argc, char **argv, char **environ)
 	char *buffer = NULL;
 	unsigned int buf_size = 0;
 	int nread;
-	char **arg_list;
-	char *shell_name;
-	char **env;
+	char **arg_list, *shell_name, **env;
+	path_node_s *path_list;
 
-	env = copy_env(environ);
 	shell_name = argv[0];
-	if (env == NULL)
-		exit(1);
 	if (argc > 1)
 	{
 		errno = 38;
 		perror(shell_name);
 		exit(1);
 	}
+	env = copy_env(environ);
+	if (env == NULL)
+		exit(1);
+	path_list = build_path(env);
 	while (1)
 	{
 		display_prompt();
@@ -61,6 +62,7 @@ int main(int argc, char **argv, char **environ)
 	print(STDOUT_FILENO, "\n");
 	free(buffer);
 	free_env(env);
+	free(path_list);
 	return (0);
 }
 

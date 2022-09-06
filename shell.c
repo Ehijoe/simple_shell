@@ -49,7 +49,7 @@ int main(int argc, char **argv, char **env)
 		if (nread == 0)
 			break;
 		arg_list = parse(buffer);
-		if (!check_builtins(arg_list, shell_name))
+		if (!check_builtins(arg_list, shell_name, &env))
 		{
 			run_command(arg_list, env, shell_name);
 		}

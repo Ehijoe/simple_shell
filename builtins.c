@@ -12,11 +12,12 @@
  *
  * Return: 1 if the command was a builtin and 0 otherwise
  */
-int check_builtins(char **arglist, char *shell_name)
+int check_builtins(char **arglist, char *shell_name, char ***env)
 {
 	int i;
 	builtin_s builtins[] = {
 		{"exit", builtin_exit},
+		{"env", builtin_env},
 		{NULL, NULL}
 	};
 
@@ -33,7 +34,7 @@ int check_builtins(char **arglist, char *shell_name)
 		{
 			if (_strcmp(arglist[0], builtins[j].name) == 0)
 			{
-				builtins[j].func(arglist, shell_name);
+				builtins[j].func(arglist, shell_name, env);
 				return (1);
 			}
 		}

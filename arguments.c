@@ -41,6 +41,7 @@ char **parse(char *line)
 		{
 			argv[l][k] = line[i + k];
 		}
+		argv[l][k] = '\0';
 		line += i + j;
 	}
 

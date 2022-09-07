@@ -62,7 +62,7 @@ int main(int argc, char **argv, char **environ)
 	print(STDOUT_FILENO, "\n");
 	free(buffer);
 	free_env(env);
-	free(path_list);
+	free_path(path_list);
 	return (0);
 }
 

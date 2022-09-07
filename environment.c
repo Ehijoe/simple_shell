@@ -29,7 +29,7 @@ char **copy_env(char **env)
 		int j, s_len;
 
 		s_len = _strlen(env[i]);
-		new_env[i] = malloc(s_len + 1);
+		new_env[i] = malloc(s_len + 2);
 		if (new_env[i] == NULL)
 		{
 			free_env(new_env);
@@ -39,8 +39,9 @@ char **copy_env(char **env)
 		{
 			new_env[i][j] = env[i][j];
 		}
-		new_env[i][j] = '\0';
+		new_env[i][s_len] = '\0';
 	}
+	new_env[i] = NULL;
 	return (new_env);
 }
 

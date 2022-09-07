@@ -12,6 +12,7 @@
 #include "builtins.h"
 #include "environment.h"
 #include "path.h"
+#include "exit.h"
 
 
 /**
@@ -41,6 +42,8 @@ int main(int argc, char **argv, char **environ)
 	if (env == NULL)
 		exit(1);
 	path_list = build_path(env);
+	/* Setup exit function */
+	safe_exit(-1, &arg_list, &env, &path_list, &buffer);
 	while (1)
 	{
 		display_prompt();

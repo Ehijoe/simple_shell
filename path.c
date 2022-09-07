@@ -44,6 +44,8 @@ path_node_s *build_path(char **env)
 			new_node->path[k] = path_var[i + k];
 		new_node->path[j] = '\0';
 		i += j;
+		if (path_var[i] == '\0')
+			break;
 	}
 	return (path_list);
 }

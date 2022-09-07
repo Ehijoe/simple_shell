@@ -59,7 +59,7 @@ int _strcmp(char *s1, char *s2)
  * @string1: pointer to the destination string
  * @string2: pointer to the source string
  *
- * Return = destination
+ * Return: Pointer to concatenated string or NULL on error
  */
 char *_strcat(char *string1, char *string2)
 {
@@ -69,7 +69,7 @@ char *_strcat(char *string1, char *string2)
 
 	length1 = _strlen(string1);
 	length2 = _strlen(string2);
-	length3 = length1 + length2+1;
+	length3 = length1 + length2 + 1;
 
 	full_string = malloc(length3 + 1);
 	if (full_string == NULL)
@@ -81,7 +81,7 @@ char *_strcat(char *string1, char *string2)
 	for (i = 0; i < length2; i++)
 		full_string[length1 + i] = string2[i];
 
-	full_string[length3 -1] = '\0';
+	full_string[length3 - 1] = '\0';
 
 	return (full_string);
 }

@@ -11,6 +11,7 @@
 #include "arguments.h"
 #include "builtins.h"
 #include "environment.h"
+#include "path.h"
 
 
 /**
@@ -26,20 +27,20 @@ int main(int argc, char **argv, char **environ)
 	char *buffer = NULL;
 	unsigned int buf_size = 0;
 	int nread;
-	char **arg_list;
-	char *shell_name;
-	char **env;
+	char **arg_list, *shell_name, **env;
+	path_node_s *path_list;
 
-	env = copy_env(environ);
 	shell_name = argv[0];
-	if (env == NULL)
-		exit(1);
 	if (argc > 1)
 	{
 		errno = 38;
 		perror(shell_name);
 		exit(1);
 	}
+	env = copy_env(environ);
+	if (env == NULL)
+		exit(1);
+	path_list = build_path(env);
 	while (1)
 	{
 		display_prompt();
@@ -54,13 +55,14 @@ int main(int argc, char **argv, char **environ)
 		arg_list = parse(buffer);
 		if (!check_builtins(arg_list, shell_name, &env))
 		{
-			run_command(arg_list, env, shell_name);
+			run_command(arg_list, env, shell_name, path_list);
 		}
 		del_arglist(arg_list);
 	}
 	print(STDOUT_FILENO, "\n");
 	free(buffer);
 	free_env(env);
+	free_path(path_list);
 	return (0);
 }
 
@@ -79,43 +81,52 @@ void display_prompt(void)
  * @arg_list: The argv for the command
  * @environment: The environment for the command
  * @shell_name: The name of the shell calling the command
+ * @path: Linked list of binary paths
  *
  * Return: On success the exit status and on failure -1
  */
-int run_command(char **arg_list, char **environment, char *shell_name)
+int run_command(char **arg_list,
+		char **environment,
+		char *shell_name,
+		path_node_s *path)
 {
 	pid_t child;
-	int status, err;
-	struct stat comm_st;
+	int status;
+	struct stat comm_st = {0};
+	char *prog_name;
 
-	stat(arg_list[0], &comm_st);
-	if (S_ISDIR(comm_st.st_mode))
+	prog_name = search_path(arg_list[0], path);
+	if (prog_name != NULL)
 	{
-		print(STDERR_FILENO, shell_name);
-		print(STDERR_FILENO, ": ");
-		errno = EISDIR;
-		perror(arg_list[0]);
-		return (-1);
-	}
-	if (access(arg_list[0], X_OK) == 0)
-	{
+		stat(arg_list[0], &comm_st);
+		if (S_ISDIR(comm_st.st_mode))
+		{
+			if (prog_name != arg_list[0])
+				free(prog_name);
+			print(STDERR_FILENO, shell_name);
+			print(STDERR_FILENO, ": ");
+			errno = EISDIR;
+			perror(arg_list[0]);
+			return (-1);
+		}
 		child = fork();
 		if (child == -1)
 			return (-1);
 		if (child == 0)
 		{
-			execve(arg_list[0], arg_list, environment);
+			execve(prog_name, arg_list, environment);
 			exit(126);
 		}
+		if (prog_name != arg_list[0])
+			free(prog_name);
 		wait(&status);
 		return (status);
 	}
 	else
 	{
-		err = errno;
 		print(STDERR_FILENO, shell_name);
 		print(STDERR_FILENO, ": ");
-		errno = err;
+		errno = ENOENT;
 		perror(arg_list[0]);
 		return (-1);
 	}

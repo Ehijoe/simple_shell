@@ -11,7 +11,7 @@
  */
 char *ex_comment(char *line)
 {
-	int i, count_to = 0;
+	int i;
 
 	while (line[i] != '\0')
 	{
@@ -19,14 +19,14 @@ char *ex_comment(char *line)
 		{
 			if (line[i] == '#')
 			{
-				return (NULL);
 				if (line[i + 1])
 				{
 					line[i + 1] = '\0';
-					i++;
+					continue;
 				}
+				return (NULL);
 			}
 		}
-		return (line);
 	}
+	return (line);
 }

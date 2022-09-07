@@ -1,6 +1,6 @@
 # Simple Shell Project
 
-## shell.c
+# This is an ALX collaborative project between Joseph Alikah and Michael Onyeweke. We were required to write a simple UNIX command interpreter.
 
 Main shell program
 

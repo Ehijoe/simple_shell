@@ -25,10 +25,9 @@
  */
 int main(int argc, char **argv, char **environ)
 {
-	char *buffer = NULL;
 	unsigned int buf_size = 0;
 	int nread;
-	char **arg_list, *shell_name, **env;
+	char **arg_list, *shell_name, **env, *buffer = NULL;
 	path_node_s *path_list;
 
 	shell_name = argv[0];
@@ -42,7 +41,6 @@ int main(int argc, char **argv, char **environ)
 	if (env == NULL)
 		exit(1);
 	path_list = build_path(env);
-	/* Setup exit function */
 	safe_exit(-1, &arg_list, &env, &path_list, &buffer);
 	while (1)
 	{

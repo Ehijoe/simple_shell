@@ -6,7 +6,7 @@
 void safe_exit(int status,
 	  char ***arglist,
 	  char ***env,
-	  path_node_s **path_list,
+	  path_node_s * *path_list,
 	  char **buffer);
 
 #endif

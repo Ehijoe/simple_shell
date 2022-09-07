@@ -1,6 +1,11 @@
 # Simple Shell Project
 
-# This is an ALX collaborative project between Joseph Alikah and Michael Onyeweke. We were required to write a simple UNIX command interpreter.
+# This is an ALX collaborative project in c programming language between Joseph Alikah and Michael Onyeweke. We were required to write a simple UNIX command interpreter.
+
+# Output
+Unless specified otherwise, your program must have the exact same output as sh (/bin/sh) as well as the exact same error output.
+
+
 
 Main shell program
 

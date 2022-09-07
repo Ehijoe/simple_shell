@@ -4,6 +4,11 @@
 #include "io.h"
 #include "env.h"
 #include "environment.h"
+#include "path.h"
+#include "builtins.h"
+#include "shell.h"
+#include "exit.h"
+
 
 /**
  * builtin_exit - exits with a specific status code
@@ -46,8 +51,8 @@ int builtin_exit(char **arglist,
 			i++;
 		}
 	}
-	free_env(*env);
-	exit(status);
+	safe_exit(status, NULL, NULL, NULL, NULL);
+	return (-1);
 }
 
 

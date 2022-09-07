@@ -55,7 +55,7 @@ int main(int argc, char **argv, char **environ)
 		arg_list = parse(buffer);
 		if (!check_builtins(arg_list, shell_name, &env))
 		{
-			run_command(arg_list, env, shell_name);
+			run_command(arg_list, env, shell_name, path_list);
 		}
 		del_arglist(arg_list);
 	}
@@ -81,14 +81,19 @@ void display_prompt(void)
  * @arg_list: The argv for the command
  * @environment: The environment for the command
  * @shell_name: The name of the shell calling the command
+ * @path: Linked list of binary paths
  *
  * Return: On success the exit status and on failure -1
  */
-int run_command(char **arg_list, char **environment, char *shell_name)
+int run_command(char **arg_list,
+		char **environment,
+		char *shell_name,
+		path_node_s *path)
 {
 	pid_t child;
-	int status, err;
+	int status;
 	struct stat comm_st;
+	char *prog_name;
 
 	stat(arg_list[0], &comm_st);
 	if (S_ISDIR(comm_st.st_mode))
@@ -99,25 +104,27 @@ int run_command(char **arg_list, char **environment, char *shell_name)
 		perror(arg_list[0]);
 		return (-1);
 	}
-	if (access(arg_list[0], X_OK) == 0)
+	prog_name = search_path(arg_list[0], path);
+	if (prog_name != NULL)
 	{
 		child = fork();
 		if (child == -1)
 			return (-1);
 		if (child == 0)
 		{
-			execve(arg_list[0], arg_list, environment);
+			execve(prog_name, arg_list, environment);
 			exit(126);
 		}
+		if (prog_name != arg_list[0])
+			free(prog_name);
 		wait(&status);
 		return (status);
 	}
 	else
 	{
-		err = errno;
 		print(STDERR_FILENO, shell_name);
 		print(STDERR_FILENO, ": ");
-		errno = err;
+		errno = ENOENT;
 		perror(arg_list[0]);
 		return (-1);
 	}

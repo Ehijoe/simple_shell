@@ -14,5 +14,6 @@ typedef struct path_node
 
 path_node_s *build_path(char **env);
 void free_path(path_node_s *list);
+char *search_path(char *prog_name, path_node_s *path);
 
 #endif

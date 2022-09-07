@@ -3,6 +3,7 @@
 
 #include "path.h"
 #include "env.h"
+#include "string.h"
 
 
 /**
@@ -61,4 +62,35 @@ void free_path(path_node_s *list)
 	if (list->path != NULL)
 		free(list->path);
 	free(list);
+}
+
+
+/**
+ * search_path - Searches if a program is in the path or is a valid executable
+ * @prog_name: Name of the program
+ * @path: Pointer to the first node of the path list
+ *
+ * Return: A pointer to the full path or NULL if the program is invalid
+ */
+char *search_path(char *prog_name, path_node_s *path)
+{
+	path_node_s *curr;
+	char *full_name, *dir;
+
+	for (curr = path; curr != NULL; curr = curr->next)
+	{
+		dir = _strcat(curr->path, "/");
+		full_name = _strcat(dir, prog_name);
+		free(dir);
+		if (access(full_name, X_OK) == 0)
+		{
+			return (full_name);
+		}
+		free(full_name);
+	}
+	if (access(prog_name, X_OK) == 0)
+	{
+		return (prog_name);
+	}
+	return (NULL);
 }

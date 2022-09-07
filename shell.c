@@ -5,6 +5,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <fcntl.h>
 
 #include "shell.h"
 #include "io.h"
@@ -26,16 +27,15 @@
 int main(int argc, char **argv, char **environ)
 {
 	unsigned int buf_size = 0;
-	int nread;
+	int nread, input_fd;
 	char **arg_list, *shell_name, **env, *buffer = NULL;
 	path_node_s *path_list;
 
+	input_fd = STDIN_FILENO;
 	shell_name = argv[0];
-	if (argc > 1)
+	if (argc == 2)
 	{
-		errno = 38;
-		perror(shell_name);
-		exit(1);
+		input_fd = open(argv[1], O_RDONLY);
 	}
 	env = copy_env(environ);
 	if (env == NULL)
@@ -44,7 +44,7 @@ int main(int argc, char **argv, char **environ)
 	safe_exit(-1, &arg_list, &env, &path_list, &buffer);
 	while (1)
 	{
-		display_prompt();
+		display_prompt(input_fd);
 		nread = readline(&buffer, &buf_size, STDIN_FILENO);
 		if (nread == -1)
 		{
@@ -60,7 +60,8 @@ int main(int argc, char **argv, char **environ)
 		}
 		del_arglist(arg_list);
 	}
-	print(STDOUT_FILENO, "\n");
+	if (isatty(input_fd))
+		print(STDOUT_FILENO, "\n");
 	free(buffer);
 	free_env(env);
 	free_path(path_list);
@@ -70,10 +71,14 @@ int main(int argc, char **argv, char **environ)
 
 /**
  * display_prompt - Displays the prompt for the user to enter a command
+ * @fd: The file descriptor for the standard input
  */
-void display_prompt(void)
+void display_prompt(int fd)
 {
-	print(STDOUT_FILENO, "$ ");
+	if (isatty(fd))
+	{
+		print(STDOUT_FILENO, "$ ");
+	}
 }
 
 

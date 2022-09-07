@@ -3,7 +3,7 @@
 
 #include "path.h"
 
-void display_prompt(void);
+void display_prompt(int fd);
 int run_command(char **arg_list,
 		char **environment,
 		char *shell_name,

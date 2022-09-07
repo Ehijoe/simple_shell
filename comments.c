@@ -4,6 +4,8 @@
 /**
  * ex_comment - removes comment from input string
  * @line: input string
+ *
+ * Return: The modified input string
  */
 char *ex_comment(char *line)
 {

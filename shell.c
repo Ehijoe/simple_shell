@@ -14,6 +14,7 @@
 #include "environment.h"
 #include "path.h"
 #include "exit.h"
+#include "comments.h"
 
 
 /**
@@ -53,7 +54,7 @@ int main(int argc, char **argv, char **environ)
 		}
 		if (nread == 0)
 			break;
-		arg_list = parse(buffer);
+		arg_list = parse(ex_comment(buffer));
 		if (!check_builtins(arg_list, shell_name, &env))
 		{
 			run_command(arg_list, env, shell_name, path_list);

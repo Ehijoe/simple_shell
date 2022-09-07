@@ -4,14 +4,15 @@
 /**
  * ex_comment - removes comment from input string
  * @line: input string
+ * @nread: The number of characters read into the string
  *
  * Return: The modified input string
  */
-char *ex_comment(char *line)
+char *ex_comment(char *line, int nread)
 {
 	int i;
 
-	for (i = 0; line[i] != '0'; i++)
+	for (i = 0; i < nread; i++)
 	{
 		if (line[i] == '#')
 		{

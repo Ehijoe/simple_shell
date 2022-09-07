@@ -35,9 +35,7 @@ int main(int argc, char **argv, char **environ)
 	input_fd = STDIN_FILENO;
 	shell_name = argv[0];
 	if (argc == 2)
-	{
 		input_fd = open(argv[1], O_RDONLY);
-	}
 	env = copy_env(environ);
 	if (env == NULL)
 		exit(1);
@@ -46,7 +44,7 @@ int main(int argc, char **argv, char **environ)
 	while (1)
 	{
 		display_prompt(input_fd);
-		nread = readline(&buffer, &buf_size, STDIN_FILENO);
+		nread = readline(&buffer, &buf_size, input_fd);
 		if (nread == -1)
 		{
 			perror(argv[0]);
@@ -54,11 +52,10 @@ int main(int argc, char **argv, char **environ)
 		}
 		if (nread == 0)
 			break;
-		arg_list = parse(ex_comment(buffer));
+		ex_comment(buffer, nread);
+		arg_list = parse(buffer);
 		if (!check_builtins(arg_list, shell_name, &env))
-		{
 			run_command(arg_list, env, shell_name, path_list);
-		}
 		del_arglist(arg_list);
 	}
 	if (isatty(input_fd))

@@ -99,6 +99,8 @@ int run_command(char **arg_list,
 	struct stat comm_st = {0};
 	char *prog_name;
 
+	if (arg_list[0] == NULL)
+		return (0);
 	prog_name = search_path(arg_list[0], path);
 	if (prog_name != NULL)
 	{
@@ -126,12 +128,9 @@ int run_command(char **arg_list,
 		wait(&status);
 		return (status);
 	}
-	else
-	{
-		print(STDERR_FILENO, shell_name);
-		print(STDERR_FILENO, ": ");
-		errno = ENOENT;
-		perror(arg_list[0]);
-		return (-1);
-	}
+	print(STDERR_FILENO, shell_name);
+	print(STDERR_FILENO, ": ");
+	errno = ENOENT;
+	perror(arg_list[0]);
+	return (-1);
 }

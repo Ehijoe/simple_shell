@@ -1,4 +1,6 @@
-# ALX Simple Shell Project
+# ALX Software Engineering Programme
+
+# Simple Shell Project
 
 This is an ALX collaborative project in c programming language. It is our final project on the c progamming language, having completed the first trimester of the ALX Software Engineering programme.
 
@@ -12,7 +14,7 @@ The project required us to write a simple UNIX command interpreter. We were give
 * Unless specified otherwise, your program must have the exact same output as sh (/bin/sh) as well as the exact same error output.
 
 * The only difference is when you print an error, the name of the program must be equivalent to your argv[0] (See below)
-Example of error with sh:
+* Example of error with sh:
 
 	$ echo "qwerty" | /bin/sh
 
@@ -24,7 +26,10 @@ Example of error with sh:
 
 	$
 
-	Same error with your program hsh:
+
+
+
+*	Same error with your program hsh:
 
 
 	$ echo "qwerty" | ./hsh
@@ -34,7 +39,7 @@ Example of error with sh:
 	$ echo "qwerty" | ./././hsh
 
 	./././hsh: 1: qwerty: not found
-	
+
 	$
 
 

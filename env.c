@@ -21,7 +21,7 @@ int startsWith(char *s, char *ndl)
 
 	if (!s || !ndl)
 		return (0);
-	while (ndl[i])
+	while (ndl[i] != '\0')
 	{
 		if (ndl[i] != s[i])
 			return (0);
@@ -75,14 +75,14 @@ char *get_env(char *key, char **environ)
 	int i, j;
 
 	if (!is_valid_key(key))
-		return (0);
+		return (NULL);
 	for (i = 0, envs = environ; envs[i]; i++)
 	{
 		j = startsWith(envs[i], key);
 		if (j)
 			return (envs[i] + 1 + j);
 	}
-	return (0);
+	return (NULL);
 }
 
 

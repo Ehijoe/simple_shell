@@ -16,8 +16,11 @@ char *ex_comment(char *line, int nread)
 	{
 		if (line[i] == '#')
 		{
-			line[i] = '\0';
-			break;
+			if (i == 0 || line[i - 1] == ' ')
+			{
+				line[i] = '\0';
+				break;
+			}
 		}
 	}
 	return (line);

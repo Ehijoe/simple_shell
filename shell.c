@@ -126,7 +126,7 @@ int run_command(char **arg_list,
 		if (prog_name != arg_list[0])
 			free(prog_name);
 		wait(&status);
-		return (status);
+		return (WEXITSTATUS(status));
 	}
 	print(STDERR_FILENO, shell_name);
 	print(STDERR_FILENO, ": ");

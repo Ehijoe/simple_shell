@@ -35,7 +35,7 @@ int main(int argc, char **argv, char **environ)
 	input_fd = STDIN_FILENO;
 	shell_name = argv[0];
 	if (argc == 2)
-		input_fd = open(argv[1], O_RDONLY);
+		input_fd = safe_open(shell_name, argv[1], O_RDONLY);
 	env = copy_env(environ);
 	if (env == NULL)
 		exit(1);

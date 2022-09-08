@@ -6,4 +6,4 @@
 - [x] Change exit builtin to use last status
 - [x] Exit with status 2 if builtin is given invalid number
 - [x] Allow # within words
-- [ ] Handle invalid input files
+- [x] Handle invalid input files

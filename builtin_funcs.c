@@ -51,7 +51,7 @@ int builtin_exit(char **arglist,
 			i++;
 		}
 	}
-	safe_exit(status, NULL, NULL, NULL, NULL);
+	safe_exit(0, NULL, NULL, NULL, NULL, NULL);
 	return (-1);
 }
 

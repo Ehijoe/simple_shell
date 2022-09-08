@@ -3,10 +3,11 @@
 
 #include "path.h"
 
-void safe_exit(int status,
-	  char ***arglist,
-	  char ***env,
-	  path_node_s * *path_list,
-	  char **buffer);
+void safe_exit(int setup,
+	       int *status,
+	       char ***arglist,
+	       char ***env,
+	       path_node_s * *path_list,
+	       char **buffer);
 
 #endif

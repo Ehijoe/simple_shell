@@ -45,11 +45,15 @@ int builtin_exit(char **arglist,
 		while (arglist[1][i] != '\0')
 		{
 			if (arglist[1][i] > '9' || arglist[1][i] < '0')
-				return (-1);
+			{
+				status = 2;
+				break;
+			}
 			status *= 10;
 			status += arglist[1][i] - '0';
 			i++;
 		}
+		safe_exit(0, &status, NULL, NULL, NULL, NULL);
 	}
 	safe_exit(0, NULL, NULL, NULL, NULL, NULL);
 	return (-1);

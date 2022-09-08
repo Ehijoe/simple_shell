@@ -45,5 +45,7 @@ void safe_exit(int setup,
 	free_env(*env_store);
 	free_path(*path_list_store);
 	del_arglist(*arglist_store);
+	if (status != NULL)
+		exit(*status);
 	exit(*status_store);
 }

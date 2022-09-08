@@ -1,6 +1,12 @@
 # ALX Simple Shell Project
 
-This is an ALX collaborative project in c programming language between Joseph Alikah and Michael Onyeweke. We were required to write a simple UNIX command interpreter.
+This is an ALX collaborative project in c programming language. It is our final project on the c progamming language, having completed the first trimester of the ALX Software Engineering programme.
+
+The project required us to write a simple UNIX command interpreter. We were given a set of rules to follow and a list of allowed functions.
+
+# Collaborators/Authors
+1. Joseph Alikah
+2. Michael Onyeweke
 
 # Output
 * Unless specified otherwise, your program must have the exact same output as sh (/bin/sh) as well as the exact same error output.
@@ -8,18 +14,18 @@ This is an ALX collaborative project in c programming language between Joseph Al
 * The only difference is when you print an error, the name of the program must be equivalent to your argv[0] (See below)
 Example of error with sh:
 
-$ echo "qwerty" | /bin/sh
-/bin/sh: 1: qwerty: not found
-$ echo "qwerty" | /bin/../bin/sh
-/bin/../bin/sh: 1: qwerty: not found
-$
-Same error with your program hsh:
+	$ echo "qwerty" | /bin/sh
+	/bin/sh: 1: qwerty: not found
+	$ echo "qwerty" | /bin/../bin/sh
+	/bin/../bin/sh: 1: qwerty: not found
+	$
+	Same error with your program hsh:
 
-$ echo "qwerty" | ./hsh
-./hsh: 1: qwerty: not found
-$ echo "qwerty" | ./././hsh
-./././hsh: 1: qwerty: not found
-$
+	$ echo "qwerty" | ./hsh
+	./hsh: 1: qwerty: not found
+	$ echo "qwerty" | ./././hsh
+	./././hsh: 1: qwerty: not found
+	$
 
 
 # General
@@ -74,30 +80,30 @@ $
 # Compilation
 Your shell will be compiled this way:
 
-gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+	gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 
 
 # Testing
-Your shell should work like this in interactive mode:
+* Your shell should work like this in interactive mode:
 
-$ ./hsh
-($) /bin/ls
-hsh main.c shell.c
-($)
-($) exit
-$
+	$ ./hsh
+	($) /bin/ls
+	hsh main.c shell.c
+	($)
+	($) exit
+	$
 
 
-But also in non-interactive mode:
+* But also in non-interactive mode:
 
-$ echo "/bin/ls" | ./hsh
-hsh main.c shell.c test_ls_2
-$
-$ cat test_ls_2
-/bin/ls
-/bin/ls
-$
-$ cat test_ls_2 | ./hsh
-hsh main.c shell.c test_ls_2
-hsh main.c shell.c test_ls_2
-$
+	$ echo "/bin/ls" | ./hsh
+	hsh main.c shell.c test_ls_2
+	$
+	$ cat test_ls_2
+	/bin/ls
+	/bin/ls
+	$
+	$ cat test_ls_2 | ./hsh
+	hsh main.c shell.c test_ls_2
+	hsh main.c shell.c test_ls_2
+	$

@@ -30,7 +30,7 @@ int safe_open(char *shell_name, char *pathname, int flags)
 		print(STDERR_FILENO, ": ");
 		errno = err;
 		perror(pathname);
-		exit(2);
+		exit(127);
 	}
 	return (fd);
 }

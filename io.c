@@ -3,6 +3,38 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <stdio.h>
+
+
+/**
+ * safe_open - Open a file or exit
+ * @shell_name: Shell name for error message
+ * @pathname: File to open
+ * @flags: Flags for open call
+ *
+ * Return: File descriptor for the opened file
+ */
+int safe_open(char *shell_name, char *pathname, int flags)
+{
+	int fd, err;
+
+	fd = open(pathname, flags);
+	if (fd == -1)
+	{
+		err = errno;
+		print(STDERR_FILENO, shell_name);
+		print(STDERR_FILENO, ": ");
+		errno = err;
+		perror(pathname);
+		exit(2);
+	}
+	return (fd);
+}
+
 
 /**
  * print - Prints a string to a file

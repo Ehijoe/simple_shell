@@ -28,19 +28,19 @@
 int main(int argc, char **argv, char **environ)
 {
 	unsigned int buf_size = 0;
-	int nread, input_fd;
-	char **arg_list, *shell_name, **env, *buffer = NULL;
+	int nread, input_fd, stat = 0;
+	char **arglist, *shell_name, **env, *buffer = NULL;
 	path_node_s *path_list;
 
 	input_fd = STDIN_FILENO;
 	shell_name = argv[0];
 	if (argc == 2)
-		input_fd = open(argv[1], O_RDONLY);
+		input_fd = safe_open(shell_name, argv[1], O_RDONLY);
 	env = copy_env(environ);
 	if (env == NULL)
 		exit(1);
 	path_list = build_path(env);
-	safe_exit(-1, &arg_list, &env, &path_list, &buffer);
+	safe_exit(1, &stat, &arglist, &env, &path_list, &buffer);
 	while (1)
 	{
 		display_prompt(input_fd);
@@ -53,17 +53,17 @@ int main(int argc, char **argv, char **environ)
 		if (nread == 0)
 			break;
 		ex_comment(buffer, nread);
-		arg_list = parse(buffer);
-		if (!check_builtins(arg_list, shell_name, &env))
-			run_command(arg_list, env, shell_name, path_list);
-		del_arglist(arg_list);
+		arglist = parse(buffer);
+		if (!check_builtins(arglist, shell_name, &env))
+			stat = run_command(arglist, env, shell_name, path_list);
+		del_arglist(arglist);
 	}
 	if (isatty(input_fd))
 		print(STDOUT_FILENO, "\n");
 	free(buffer);
 	free_env(env);
 	free_path(path_list);
-	return (0);
+	return (stat);
 }
 
 
@@ -99,6 +99,8 @@ int run_command(char **arg_list,
 	struct stat comm_st = {0};
 	char *prog_name;
 
+	if (arg_list[0] == NULL)
+		return (0);
 	prog_name = search_path(arg_list[0], path);
 	if (prog_name != NULL)
 	{
@@ -111,11 +113,11 @@ int run_command(char **arg_list,
 			print(STDERR_FILENO, ": ");
 			errno = EISDIR;
 			perror(arg_list[0]);
-			return (-1);
+			return (1);
 		}
 		child = fork();
 		if (child == -1)
-			return (-1);
+			return (1);
 		if (child == 0)
 		{
 			execve(prog_name, arg_list, environment);
@@ -126,12 +128,9 @@ int run_command(char **arg_list,
 		wait(&status);
 		return (status);
 	}
-	else
-	{
-		print(STDERR_FILENO, shell_name);
-		print(STDERR_FILENO, ": ");
-		errno = ENOENT;
-		perror(arg_list[0]);
-		return (-1);
-	}
+	print(STDERR_FILENO, shell_name);
+	print(STDERR_FILENO, ": ");
+	errno = ENOENT;
+	perror(arg_list[0]);
+	return (127);
 }
